@@ -1,0 +1,335 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+}
+
+.custom-nav {
+    background-color: #f5f5f7;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    font-size: 17px;
+}
+
+.apple-nav {
+    position: fixed;
+}
+
+.product-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 300px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.product-card:hover {
+    transform: scale(1.02);
+}
+
+.category-item img {
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+.category-item p {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.hero-section .position-relative {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-bg-img {
+    min-height: 270px;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-content-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 100%;
+    pointer-events: none;
+}
+
+.store-title {
+    font-size: 80px;
+    font-weight: 600;
+    margin: 0;
+    background-image: linear-gradient(to right,
+            #86500e 0%,
+            #a37000 50%,
+            #c5973d 100%);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-sub-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1d1d1f;
+    pointer-events: auto;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+.gradient-text {
+    font-size: 25px;
+    font-weight: 600;
+
+    background-image: linear-gradient(to right,
+            #86500e 0%,
+            #a37000 50%,
+            #c5973d 100%);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+    color: transparent;
+}
+
+.highlight-text {
+    color: #6e6e73;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.apple-nav {
+    backdrop-filter: blur(20px);
+    height: 44px;
+}
+
+.apple-mega {
+    position: relative;
+}
+
+.apple-mega-menu {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 40px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    z-index: 999;
+}
+
+/* Hover hiện menu */
+.apple-mega:hover .apple-mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mega-title {
+    font-size: 13px;
+    color: #6e6e73;
+    margin-bottom: 14px;
+}
+
+/* List */
+.mega-list {
+    list-style: none;
+    padding: 0;
+}
+
+.mega-list li {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.mega-list a {
+    color: #1d1d1f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.mega-list li:hover a:hover {
+    color: #5376a3;
+}
+
+/* Container bọc ngoài cho phép cuộn ngang */
+.product-scroll-wrapper {
+    overflow-x: auto;
+    /* Cho phép cuộn ngang */
+    overflow-y: hidden;
+    /* Chặn cuộn dọc */
+    padding-bottom: 20px;
+    /* Tạo khoảng trống cho bóng đổ (shadow) của card */
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn trên Firefox */
+    -ms-overflow-style: none;
+    /* Ẩn thanh cuộn trên IE/Edge */
+}
+
+/* Ẩn thanh cuộn trên Chrome, Safari và Opera */
+.product-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ép các cột Bootstrap không co lại và giữ kích thước */
+#product-list .col-lg-3 {
+    flex: 0 0 auto;
+    /* Ngăn cột bị nén lại */
+    width: 320px;
+    /* Độ rộng cố định cho mỗi item sản phẩm */
+}
+
+/* Hiệu ứng mượt khi cuộn trên cảm ứng */
+#product-list {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scroll-controls button {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #f5f5f7;
+    transition: all 0.3s ease;
+}
+
+.scroll-controls button:hover {
+    background: #e8e8ed;
+}
+
+.product-scroll-wrapper {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    /* Cuộn mượt khi click */
+    scrollbar-width: none;
+}
+
+.product-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Footer Styles */
+.apple-footer {
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-notes {
+    color: #6e6e73;
+    line-height: 1.5;
+}
+
+.footer-links h6 {
+    font-size: 12px;
+    color: #1d1d1f;
+    margin-bottom: 10px;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links ul li a {
+    color: #424245;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links ul li a:hover {
+    text-decoration: underline;
+    color: #1d1d1f;
+}
+
+.footer-bottom {
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.footer-legal-links a {
+    color: #424245;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-legal-links a:hover {
+    text-decoration: underline;
+}
+
+/* Kẻ ngăn cách nhạt */
+.border-top,
+.border-bottom {
+    border-color: #d2d2d7 !important;
+}
+
+/* Chấm chọn màu sắc */
+.color-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 2px;
+    background-clip: content-box;
+}
+
+.color-dot.active {
+    border-color: #0071e3;
+}
+
+/* Card chọn dung lượng */
+.storage-option {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.storage-option:hover {
+    border-color: #0071e3;
+}
+
+.storage-option.active {
+    border-color: #0071e3;
+    background-color: rgba(0, 113, 227, 0.05);
+}
+
+/* Nút kiểu Apple */
+.btn-primary {
+    background-color: #0071e3;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0077ed;
+}
+
+.btn-outline-primary {
+    color: #0071e3;
+    border-color: #0071e3;
+}
