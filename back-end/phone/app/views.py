@@ -5,14 +5,19 @@ from django.http import Http404
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 
 class ProductList(APIView):
-    def get(self,request):
-        product = Product.objects.all()
-        serializers = ProductSerializer(product,many=True)
-        return Response(serializers.data)
+   def get(self, request):
+    products = Product.objects.all()
+    new = request.query_params.get('new')
+    if new and new.lower() == 'true':
+        products = products.order_by('-created_at')[:4]
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+   
 class ProductDetail(APIView):
     def get_obj(self,pk):
         try:
@@ -23,6 +28,12 @@ class ProductDetail(APIView):
         product = self.get_obj(pk)
         serializers = ProductSerializer(product)
         return Response(serializers.data)
+    
+# class ProductNewList(APIView):
+#     def get(self,request):
+#         productnew = Product.objects.order_by('-created_at')[:5]
+#         serializer = ProductSerializer(productnew, many=True)
+#         return Response(serializer.data)
     
 class CategoryList(APIView):
     def get(self, request):

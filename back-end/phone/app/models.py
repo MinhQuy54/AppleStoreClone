@@ -18,6 +18,8 @@ class Product(models.Model):
     guarantee = models.CharField(max_length=100)
     status = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True)    
 
     def __str__(self):
         return self.productname

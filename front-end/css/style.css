@@ -171,68 +171,14 @@ body {
     text-decoration: none;
 }
 
-.mega-list li:hover a:hover {
+.mega-list a:hover {
     color: #5376a3;
 }
 
-/* Container bọc ngoài cho phép cuộn ngang */
-.product-scroll-wrapper {
-    overflow-x: auto;
-    /* Cho phép cuộn ngang */
-    overflow-y: hidden;
-    /* Chặn cuộn dọc */
-    padding-bottom: 20px;
-    /* Tạo khoảng trống cho bóng đổ (shadow) của card */
-    scrollbar-width: none;
-    /* Ẩn thanh cuộn trên Firefox */
-    -ms-overflow-style: none;
-    /* Ẩn thanh cuộn trên IE/Edge */
+.mega-list li:hover {
+    color: #5376a3;
 }
 
-/* Ẩn thanh cuộn trên Chrome, Safari và Opera */
-.product-scroll-wrapper::-webkit-scrollbar {
-    display: none;
-}
-
-/* Ép các cột Bootstrap không co lại và giữ kích thước */
-#product-list .col-lg-3 {
-    flex: 0 0 auto;
-    /* Ngăn cột bị nén lại */
-    width: 320px;
-    /* Độ rộng cố định cho mỗi item sản phẩm */
-}
-
-/* Hiệu ứng mượt khi cuộn trên cảm ứng */
-#product-list {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-.scroll-controls button {
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background: #f5f5f7;
-    transition: all 0.3s ease;
-}
-
-.scroll-controls button:hover {
-    background: #e8e8ed;
-}
-
-.product-scroll-wrapper {
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    /* Cuộn mượt khi click */
-    scrollbar-width: none;
-}
-
-.product-scroll-wrapper::-webkit-scrollbar {
-    display: none;
-}
 
 /* Footer Styles */
 .apple-footer {
@@ -281,55 +227,4 @@ body {
 
 .footer-legal-links a:hover {
     text-decoration: underline;
-}
-
-/* Kẻ ngăn cách nhạt */
-.border-top,
-.border-bottom {
-    border-color: #d2d2d7 !important;
-}
-
-/* Chấm chọn màu sắc */
-.color-dot {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    padding: 2px;
-    background-clip: content-box;
-}
-
-.color-dot.active {
-    border-color: #0071e3;
-}
-
-/* Card chọn dung lượng */
-.storage-option {
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.storage-option:hover {
-    border-color: #0071e3;
-}
-
-.storage-option.active {
-    border-color: #0071e3;
-    background-color: rgba(0, 113, 227, 0.05);
-}
-
-/* Nút kiểu Apple */
-.btn-primary {
-    background-color: #0071e3;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #0077ed;
-}
-
-.btn-outline-primary {
-    color: #0071e3;
-    border-color: #0071e3;
 }

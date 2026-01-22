@@ -19,11 +19,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
     'corsheaders',
-
     'app',
+    'django_filters'
 ]
 
 
@@ -131,3 +130,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # DEFAULT PK
 # =========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# 2. Bỏ qua kiểm tra phiên bản Database (Sửa lỗi MariaDB 10.4)
+from django.db.backends.base.base import BaseDatabaseWrapper
+BaseDatabaseWrapper.check_database_version_supported = lambda self: None
