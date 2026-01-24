@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from .models import *
-from .serializers import ProductSerializer,CatogorySerializer
+from .serializers import ProductSerializer,CatogorySerializer,LoginSerializer
 from django.http import Http404
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
+from app.filter import ProductIphone
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 # Create your views here.
 
 
@@ -28,12 +31,29 @@ class ProductDetail(APIView):
         product = self.get_obj(pk)
         serializers = ProductSerializer(product)
         return Response(serializers.data)
+
+class ProductNameList(APIView):
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_class = ProductIphone
+    def get(self, request):
+        keyword = request.query_params.get('name')
+        queryset = Product.objects.all()
+        if keyword:
+            queryset = queryset.filter(productname__icontains=keyword)
+        serializer = ProductSerializer(queryset,many=True)
+        return Response(serializer.data)
+        # queryset = Product.objects.all()
+        # queryset = DjangoFilterBackend.filter_queryset(request,queryset,self)
+        # serializer = ProductSerializer(queryset, many=True)
+        # return Response(serializer.data)
     
 # class ProductNewList(APIView):
 #     def get(self,request):
 #         productnew = Product.objects.order_by('-created_at')[:5]
 #         serializer = ProductSerializer(productnew, many=True)
 #         return Response(serializer.data)
+
+    
     
 class CategoryList(APIView):
     def get(self, request):
@@ -45,3 +65,23 @@ class CategoryList(APIView):
 
         serializer = CatogorySerializer(queryset,many=True)
         return Response(serializer.data)
+    
+
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if not user:
+            return Response(
+                {"non_field_errors" : ["Sai tai khoan hoac mat khau"]}, status=status.HTTP_400_BAD_REQUEST
+            )
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            "access" : str(refresh.access_token),
+            "refresh" : str(refresh),
+            "username" : user.username
+        })
