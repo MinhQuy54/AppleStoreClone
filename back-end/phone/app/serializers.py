@@ -1,7 +1,7 @@
 from .models import *
 from rest_framework import serializers
 from django.contrib.auth.hashers import check_password
-
+from django.shortcuts import get_object_or_404
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -12,17 +12,39 @@ class CatogorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
 
-    def validate(self, data):
-        try:
-            username = User.objects.get(username=data['username'])
-        except User.DoesNotExist:
-            raise serializers.ValidationError("Sai tài khoản")
-        
-        if not check_password(data['password'], username.password):
-            raise serializers.ValidationError("Sai mật khẩu")
+class CartProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'productname', 'price', 'image']
 
-        return username
+class CartSerializer(serializers.ModelSerializer):
+    product = CartProductSerializer(read_only=True)
+    class Meta:
+        model = Cart
+        fields = ["id", "product", "quantity"]
+
+class AddToCartSerializer(serializers.ModelSerializer):
+    product_id = serializers.IntegerField()      
+    class Meta:
+        model = Cart
+        fields = ['product_id', 'quantity']
+    
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        product_id = self.validated_data['product_id']
+        quantity = self.validated_data.get('quantity', 1)
+
+        product = get_object_or_404(Product, id= product_id)
+
+        cart_item, created = Cart.objects.get_or_create(
+            user=user,
+            product=product,
+            defaults={'quantity': quantity}
+        )
+
+        if not created:
+            cart_item.quantity +=quantity
+            cart_item.save()
+        return cart_item
+    

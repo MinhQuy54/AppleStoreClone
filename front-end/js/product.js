@@ -37,7 +37,7 @@ function loadProducts() {
             products.forEach(p => {
                 const price = new Intl.NumberFormat('vi-VN').format(p.price);
                 container.innerHTML += `
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-12"> <a href="page/detail.html?id=${p.id}" class="text-decoration-none text-dark">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12"> <a href="detail.html?id=${p.id}" class="text-decoration-none text-dark">
                             <div class="card product-card p-4 h-100 border-0 shadow-sm" style="border-radius: 24px; transition: transform 0.3s ease;">
                                 <div class="card-body d-flex flex-column align-items-center text-center">
                                     <div style="height: 180px; width: 100%;" class="d-flex align-items-center justify-content-center mb-4">
@@ -67,7 +67,7 @@ function loadProductsTet() {
             products.forEach(p => {
                 const price = new Intl.NumberFormat('vi-VN').format(p.price);
                 container.innerHTML += `
-                     <div class="col-xl-3 col-lg-4 col-md-6 col-12"> <a href="page/detail.html?id=${p.id}" class="text-decoration-none text-dark">
+                     <div class="col-xl-3 col-lg-4 col-md-6 col-12"> <a href="detail.html?id=${p.id}" class="text-decoration-none text-dark">
                             <div class="card product-card p-4 h-100 border-0 shadow-sm" style="border-radius: 24px; transition: transform 0.3s ease;">
                                 <div class="card-body d-flex flex-column align-items-center text-center">
                                     <div style="height: 180px; width: 100%;" class="d-flex align-items-center justify-content-center mb-4">

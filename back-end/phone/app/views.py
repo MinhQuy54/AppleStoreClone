@@ -1,14 +1,13 @@
 from django.shortcuts import render
 from .models import *
-from .serializers import ProductSerializer,CatogorySerializer,LoginSerializer
+from .serializers import ProductSerializer,CatogorySerializer,CartSerializer,AddToCartSerializer
 from django.http import Http404
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django_filters.rest_framework import DjangoFilterBackend
-from app.filter import ProductIphone
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -53,7 +52,13 @@ class ProductNameList(APIView):
 #         serializer = ProductSerializer(productnew, many=True)
 #         return Response(serializer.data)
 
-    
+class ProductSearchView(APIView):
+    def get(self, request):
+        query = request.query_params.get('q')
+        if query:
+            product = Product.objects.filter(productname__icontains=query)
+        serializer = ProductSerializer(product, many=True)
+        return Response(serializer.data)
     
 class CategoryList(APIView):
     def get(self, request):
@@ -85,3 +90,64 @@ class LoginView(APIView):
             "refresh" : str(refresh),
             "username" : user.username
         })
+    
+class AddToCartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = AddToCartSerializer(data=request.data, context={'request': request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Đã thêm vào giỏ"}, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # product_id = request.data.get("product_id")
+        # quantity = int(request.data.get("quantity", 1))
+
+        # product = Product.objects.get(id=product_id)
+
+        # cart, created = Cart.objects.get_or_create(
+        #     user=request.user,
+        #     product=product
+        # )
+
+        # if not created:
+        #     cart.quantity += quantity
+        # else:
+        #     cart.quantity = quantity
+
+        # cart.save()
+
+        # return Response({"message": "Đã thêm vào giỏ"}, status=200)
+
+class CartList(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        cart = Cart.objects.filter(user=request.user)
+        serializer = CartSerializer(cart, many=True)
+        return Response(serializer.data)
+
+class CartDetail(APIView):
+    permission_classes = [IsAuthenticated]
+    def get_obj(self,request,pk):
+        try:
+            return Cart.objects.get(user=request.user,pk=pk)
+        except Cart.DoesNotExist:
+            raise Http404()
+    def get(self, request,pk):
+        cart = self.get_obj(request,pk)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        cart = self.get_obj(request,pk)
+        cart.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    def patch(self, request, pk):
+        cart_item = self.get_obj(request,pk)
+        serializer = CartSerializer(cart_item,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

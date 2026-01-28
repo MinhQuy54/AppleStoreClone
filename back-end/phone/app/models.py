@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 class Category(models.Model):
     categoryname = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
@@ -24,19 +24,19 @@ class Product(models.Model):
     def __str__(self):
         return self.productname
     
-class User(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)
-    fullname = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    numberphone = models.CharField(max_length=15)
-    address = models.CharField(max_length=255)
-    avatarimage = models.ImageField(upload_to='avatars/', blank=True, null=True)
-    token = models.CharField(max_length=255, blank=True, null=True)
-    role = models.IntegerField(default=0)
-    status = models.IntegerField(default=1)
-    ordernum = models.IntegerField(default=0)
-    rejectnum = models.IntegerField(default=0)
+# class User(models.Model):
+#     username = models.CharField(max_length=150, unique=True)
+#     password = models.CharField(max_length=128)
+#     fullname = models.CharField(max_length=255)
+#     email = models.EmailField(unique=True)
+#     numberphone = models.CharField(max_length=15)
+#     address = models.CharField(max_length=255)
+#     avatarimage = models.ImageField(upload_to='avatars/', blank=True, null=True)
+#     token = models.CharField(max_length=255, blank=True, null=True)
+#     role = models.IntegerField(default=0)
+#     status = models.IntegerField(default=1)
+#     ordernum = models.IntegerField(default=0)
+#     rejectnum = models.IntegerField(default=0)
 
 class Email(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='emails')
@@ -80,7 +80,11 @@ class OrderDetail(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
 
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='gallery')

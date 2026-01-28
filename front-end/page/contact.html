@@ -13,51 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top apple-nav pt-4">
-        <div class="container position-relative">
-            <a class="navbar-brand fw-bold" href="../home.html" style="font-style: italic;"> it'sYum</a>
-            <ul class="navbar-nav apple-center-menu gap-4 align-items-center">
-                <li class="nav-item apple-mega" data-mega="mac">
-                    <a class="nav-link" href="#">Macbook</a>
-                    <div id="mega-mac"></div>
-                </li>
-
-                <li class="nav-item apple-mega" data-mega="ipad">
-                    <a class="nav-link" href="#">iPad</a>
-                    <div id="mega-ipad"></div>
-                </li>
-                <li class="nav-item apple-mega" data-mega="watch">
-                    <a class="nav-link" href="#">Apple Watch</a>
-                    <div id="mega-watch"></div>
-                </li>
-
-                <li class="nav-item apple-mega" data-mega="iphone">
-                    <a class="nav-link" href="#">iPhone</a>
-                    <div id="mega-iphone"></div>
-                </li>
-
-                <li class="nav-item"><a class="nav-link" href="#">AirPods</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Đăng nhập</a></li>
-
-                <li class="">
-                    <nav>
-                        <div class="container-fluid">
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search"
-                                    aria-label="Search" />
-                                <button class="btn btn-outline-secondary" type="submit">Search</button>
-                            </form>
-                        </div>
-                    </nav>
-                </li>
-                <li class="nav-item icon-btn">
-                    <a href="./page/login.html"><span class="material-symbols-outlined">shopping_bag</span></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+    <div id="nav-container"></div>
     <div class="container" style="margin-top: 150px; margin-bottom: 100px;">
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
             aria-label="breadcrumb">
@@ -124,7 +80,7 @@
         </div>
     </div>
 
-    <footer class="apple-footer pt-5" >
+    <footer class="apple-footer pt-5">
         <div class="container py-5">
             <div class="footer-notes pb-3 mb-4 border-bottom">
                 <p>1. Apple Intelligence sẽ khả dụng ở bản beta trên tất cả các mẫu iPhone 16, iPhone 15 Pro và iPhone
@@ -200,8 +156,9 @@
     </footer>
 
 </body>
-<script src="js/product.js"></script>
-<script src="js/mega-menu.js"></script>
+<script src="../js/product.js"></script>
+<script src="../js/mega-menu.js"></script>
+<script src="../js/load-nav.js"></script>
 
 
 </html>

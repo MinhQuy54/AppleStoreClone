@@ -18,7 +18,7 @@ function renderProduct(p) {
         <div class="container my-4">
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../home.html" class="text-secondary text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="home.html" class="text-secondary text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item text-dark fw-bold" aria-current="page">${p.productname}</li>
                 </ol>
             </nav>
@@ -73,8 +73,12 @@ function renderProduct(p) {
                             <input type="text" value="1" class="qty-input">
                             <button class="qty-btn" onclick="this.previousElementSibling.value++">+</button>
                         </div>
-                        <button class="btn btn-danger flex-grow-1 py-2 fw-bold" style="background-color: #db4444; border:none;">
-                            Add To Cart
+                       <button
+                            class="btn btn-danger flex-grow-1 py-2 fw-bold"
+                            style="background-color: #675b5b; border:none;"
+                            onclick="addToCart(${p.id})"
+                            >
+                                Add To Cart
                         </button>
                         <button class="btn btn-outline-dark px-3 py-2">
                             <span class="material-symbols-outlined align-middle">favorite</span>
@@ -86,4 +90,33 @@ function renderProduct(p) {
             </div >
         </div >
     `;
+}
+
+function addToCart(productId) {
+    const token = localStorage.getItem("access");
+
+    if (!token) {
+        alert("Vui lòng đăng nhập");
+        localStorage.setItem(
+            "redirect_after_login",
+            window.location.pathname + window.location.search
+        );
+        window.location.href = "../page/login.html";
+        return;
+    }
+
+    fetch("http://localhost:8000/api/cart/add/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+        })
+    })
+        .then(res => res.json())
+        .then(data => alert(data.message))
+        .catch(err => console.error(err));
 }
