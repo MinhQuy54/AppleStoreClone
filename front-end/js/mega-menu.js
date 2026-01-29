@@ -19,16 +19,19 @@ function setupMegaMenu(type) {
         }
     });
 }
-
 function loadMegaMenu(type) {
-    fetch(`component/mega-menu/mega-menu-${type}.html`)
+    fetch(`../component/mega-menu/mega-menu-${type}.html`)
         .then(res => res.text())
         .then(html => {
             const container = document.getElementById(`mega-${type}`);
             container.innerHTML = html;
+
+            const menu = container.querySelector(".apple-mega-menu");
+            container.closest(".apple-mega").appendChild(menu);
+            container.remove();
+
             loadCategories(type);
-        })
-        .catch(err => console.error("Load mega HTML error:", err));
+        });
 }
 
 function loadCategories(type) {
@@ -44,19 +47,19 @@ function loadCategories(type) {
 
             list.innerHTML = `
                 <li class="fw-semibold">
-                    <a href="page/product/product-${type}.html">
+                    <a href="../page/product/product-${type}.html">
                         Khám Phá Tất Cả ${type.toUpperCase()}
                     </a>
                 </li>
-            `;
+                `;
 
             categories.forEach(c => {
                 list.innerHTML += `
-                    <li>
-                        <a href="page/detail.html?id=${c.id}">
-                            ${c.productname}
-                        </a>
-                    </li>
+                <li>
+                    <a href="../page/detail.html?id=${c.id}">
+                        ${c.productname}
+                    </a>
+                </li>
                 `;
             });
         })

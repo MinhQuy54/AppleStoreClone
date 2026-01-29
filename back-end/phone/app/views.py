@@ -91,6 +91,44 @@ class LoginView(APIView):
             "username" : user.username
         })
     
+class RegisterView(APIView):
+    def post(self, request):
+        fullname = request.data.get('fullname')
+        username = request.data.get('username')
+        password = request.data.get('password')
+        email = request.data.get('email')
+        confirm_password = request.data.get("confirm_password")
+
+        if password != confirm_password:
+            return Response({
+                "error" : "Mat khau khong khop"},
+                status= status.HTTP_400_BAD_REQUEST
+            )
+        
+        if User.objects.filter(username=username).exists():
+            return Response(
+                {"error": "Username đã tồn tại"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {"error": "Email đã được sử dụng"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=fullname
+        )
+        if user:
+            return Response(
+                    {"message": "Đăng ký thành công"},
+                    status=status.HTTP_201_CREATED
+                )
+
+
 class AddToCartView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -135,6 +173,7 @@ class CartDetail(APIView):
             return Cart.objects.get(user=request.user,pk=pk)
         except Cart.DoesNotExist:
             raise Http404()
+        
     def get(self, request,pk):
         cart = self.get_obj(request,pk)
         serializer = CartSerializer(cart)
@@ -144,6 +183,7 @@ class CartDetail(APIView):
         cart = self.get_obj(request,pk)
         cart.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
     def patch(self, request, pk):
         cart_item = self.get_obj(request,pk)
         serializer = CartSerializer(cart_item,data=request.data,partial=True)

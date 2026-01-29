@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="nav-container"></div>
+
+    <div class="container d-flex justify-content-center align-items-center"
+        style="min-height: 100vh; padding-top: 50px;">
+        <div class="row overflow-hidden shadow-lg border-0 bg-white"
+            style="border-radius: 30px; max-width: 1000px; width: 100%;">
+            <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">Create An Account</h2>
+                    <p class="text-muted small">How do I get started in it'sYum</p>
+                </div>
+
+                <form id="registerForm">
+                     <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">person</span>
+                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Full name"
+                            id="fullname">
+                    </div>
+                    <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">email</span>
+                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Email Address"
+                            id="email">
+                    </div>
+                    <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">badge</span>
+                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Username"
+                            id="username">
+                    </div>
+                    <div class="mb-4 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">lock</span>
+                        <input type="password" class="form-control border-0 bg-transparent" placeholder="Password"
+                            id="password">
+                    </div>
+                      <div class="mb-4 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">verified_user</span>
+                        <input type="password" class="form-control border-0 bg-transparent" placeholder="Confirm Password"
+                            id="cofirm_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold mb-4"
+                        style="background: rgb(192, 68, 68); border: none;">
+                        Sign Up
+                    </button>
+                </form>
+
+                <div class="d-flex align-items-center text-center mb-4">
+                    <hr class="flex-grow-1"> <span class="px-2 small text-muted">Login with Others</span>
+                    <hr class="flex-grow-1">
+                </div>
+
+                <button
+                    class="btn btn-outline-light text-dark border rounded-pill w-100 mb-2 d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18">
+                    Login with Google
+                </button>
+                <button
+                    class="btn btn-outline-light text-dark border rounded-pill w-100 d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png" width="18">
+                    Login with Facebook
+                </button>
+            </div>
+
+            <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center"
+                style="background: linear-gradient(135deg, rgb(225, 167, 167), #ed5c5c); ">
+                <div class="image-container text-center">
+                    <img src="../img/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-people-entering-login-password-safety-measures_335657-3530.png"
+                        class="img-fluid rounded-4 shadow" style="width: 70%; position: relative; z-index: 2;">
+                    <div
+                        style="position: absolute; top: 10%; left: 10%; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+</body>
+<script src="../js/product.js"></script>
+<script src="../js/mega-menu.js"></script>
+<script src="../js/load-nav.js"></script>
+<script src="../js/load-footer.js"></script>
+<script src="../js/register.js"></script>
+
+</html>

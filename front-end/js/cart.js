@@ -82,9 +82,6 @@ function formatPrice(number) {
 
 function removeFromCart(cartItemId) {
 
-    if (!confirm("Bạn có chắc chắn muốn xóa sản phẩm khỏi giỏ hàng không?")) {
-        return;
-    }
     const token = localStorage.getItem("access");
     fetch(`http://localhost:8000/api/cart/${cartItemId}`, {
         method: "DELETE",
@@ -95,20 +92,19 @@ function removeFromCart(cartItemId) {
     })
         .then(res => {
             if (res.status == 204) {
-                alert("Đã xóa sản phẩm thành công");
+                alert("Da xoa san pham thanh cong");
                 loadCart();
             }
             else if (res.status == 401) {
-                alert("Phiên đăng nhập hết hạn");
-            }
-            else {
-                alert("Có lỗi khi xóa sản phẩm");
+                alert("Phien dang nhap het han");
+            } else {
+                alert("Co loi khi xoa san pham");
             }
         })
         .catch(err => {
-            console.error("Error deleting item:", err);
-            alert("Không thể kết nối đến máy chủ");
-        });
+            console.error("Error deleting item: ", err);
+            alert("Loi ket noi may chu");
+        })
 }
 
 function updateQuantity(cartItemId, newQuantity) {
@@ -132,9 +128,8 @@ function updateQuantity(cartItemId, newQuantity) {
     })
         .then(res => {
             if (res.ok) {
-                // Không cần alert để trải nghiệm mượt mà hơn
                 console.log("Updated successfully");
-                loadCart(); // Load lại để tính toán lại tổng tiền (Subtotal/Total)
+                loadCart();
             } else {
                 throw new Error("Update failed");
             }
