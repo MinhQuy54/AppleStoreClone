@@ -1,38 +1,67 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("registerForm");
-    if (!form) return;
+const API_BASE = "http://localhost:8000/api";
 
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
+document.getElementById("sendOtpBtn").addEventListener("click", async () => {
+    const email = document.getElementById("email").value;
 
-        const data = {
-            fullname: document.getElementById("fullname").value,
-            email: document.getElementById("email").value,
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value,
-            confirm_password: document.getElementById("cofirm_password").value
-        };
+    if (!email) {
+        alert("Vui lòng nhập email");
+        return;
+    }
 
-        fetch("http://localhost:8000/api/auth/register/", {
+    try {
+        const res = await fetch(`${API_BASE}/auth/send-otp/`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    alert("Đăng ký thành công ");
-                    window.location.href = "login.html";
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Có lỗi xảy ra");
-            });
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Gửi OTP thất bại");
+            return;
+        }
+
+        alert("OTP đã gửi về email 📩");
+    } catch (err) {
+        alert("Lỗi kết nối server");
+    }
+});
+
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const payload = {
+        fullname: document.getElementById("fullname").value,
+        email: document.getElementById("email").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        confirm_password: document.getElementById("confirm_password").value,
+        otp: document.getElementById("otp").value
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/auth/register/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Đăng ký thất bại");
+            return;
+        }
+
+        alert("Đăng ký thành công 🎉");
+        window.location.href = "login.html";
+
+    } catch (err) {
+        alert("Lỗi kết nối server");
+    }
 });

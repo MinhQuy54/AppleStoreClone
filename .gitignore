@@ -1,0 +1,18 @@
+# Môi trường ảo (Virtual Environment)
+back-end/env/
+venv/
+ENV/
+
+# File cấu hình bí mật (Environment Variables)
+.env
+
+# Database (Nếu dùng SQLite)
+*.mysql
+
+# Thư mục media và static
+back-end/phone/media/
+back-end/staticfiles/
+
+# Các file tạm của Python
+__pycache__/
+*.pyc

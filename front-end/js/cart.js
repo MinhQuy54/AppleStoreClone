@@ -82,6 +82,7 @@ function formatPrice(number) {
 
 function removeFromCart(cartItemId) {
 
+    if (!confirm("Ban co chac chan muon xoa san pham nay khong ?")) { return; }
     const token = localStorage.getItem("access");
     fetch(`http://localhost:8000/api/cart/${cartItemId}`, {
         method: "DELETE",

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from .serializers import ProductSerializer,CatogorySerializer,CartSerializer,AddToCartSerializer
+from .serializers import *
 from django.http import Http404
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
@@ -8,8 +8,35 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
+import random
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
+def random_otp():
+    return str(random.randint(100000, 999999))
+
+class SendRegisterOTP(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email đã tồn tại"}, status=status.HTTP_400_BAD_REQUEST)
+        otp = random_otp()
+
+        EmailOTP.objects.update_or_create(
+            email=email,
+            defaults={"otp": otp}
+        )
+
+        send_mail(
+            "Mã OTP đăng ký",
+            f"Mã OTP của bạn là: {otp} (hiệu lực 5 phút)",
+             settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False
+        )
+        return Response({"message": "Đã gửi OTP"})
 
 class ProductList(APIView):
    def get(self, request):
@@ -93,6 +120,7 @@ class LoginView(APIView):
     
 class RegisterView(APIView):
     def post(self, request):
+        otp = request.data.get('otp')
         fullname = request.data.get('fullname')
         username = request.data.get('username')
         password = request.data.get('password')
@@ -105,6 +133,17 @@ class RegisterView(APIView):
                 status= status.HTTP_400_BAD_REQUEST
             )
         
+        try:
+            record = EmailOTP.objects.get(email=email)
+        except EmailOTP.DoesNotExist:
+            return Response({"error": "OTP không tồn tại"}, status=400)
+
+        if record.is_expired():
+            return Response({"error": "OTP đã hết hạn"}, status=400)
+
+        if record.otp != otp:
+            return Response({"error": "OTP không đúng"}, status=400)
+        
         if User.objects.filter(username=username).exists():
             return Response(
                 {"error": "Username đã tồn tại"},
@@ -116,6 +155,8 @@ class RegisterView(APIView):
                 {"error": "Email đã được sử dụng"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+        
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -123,6 +164,7 @@ class RegisterView(APIView):
             first_name=fullname
         )
         if user:
+            record.delete()
             return Response(
                     {"message": "Đăng ký thành công"},
                     status=status.HTTP_201_CREATED
@@ -191,3 +233,32 @@ class CartDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class OrderList(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        cart_item = Cart.objects.filter(user=request.user)
+        if not cart_item.exists():
+            return Response({"error": "Giỏ hàng trống"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        total = sum(item.product.price * item.quantity for item in cart_item)
+
+        order = Order.objects.create(
+            user=request.user,
+            total=total,
+            address=request.data.get('address'),
+            status=0,
+            process=0
+        )
+        for item in cart_item:
+            OrderDetail.objects.create(
+                order=order,
+                product=item.product,
+                price=item.product.price,
+                quantity=item.quantity,
+                total=item.product.price * item.quantity
+            )
+        cart_item.delete()
+
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_200_OK)

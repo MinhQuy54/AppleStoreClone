@@ -29,36 +29,53 @@
                 </div>
 
                 <form id="registerForm">
-                     <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
-                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">person</span>
+                    <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined pt-2 text-secondary">person</span>
                         <input type="text" class="form-control border-0 bg-transparent" placeholder="Full name"
-                            id="fullname">
+                            id="fullname" required>
                     </div>
+
+                    <!-- EMAIL + SEND OTP -->
                     <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
-                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">email</span>
-                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Email Address"
-                            id="email">
+                        <span class="material-symbols-outlined pt-2 text-secondary">email</span>
+                        <input type="email" class="form-control border-0 bg-transparent" placeholder="Email Address"
+                            id="email" required>
+                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill ms-2" id="sendOtpBtn">
+                            Gửi OTP
+                        </button>
                     </div>
+
+                    <!-- OTP -->
                     <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
-                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">badge</span>
+                        <span class="material-symbols-outlined pt-2 text-secondary">key</span>
+                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Nhập OTP" id="otp"
+                            maxlength="6">
+                    </div>
+
+                    <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined pt-2 text-secondary">badge</span>
                         <input type="text" class="form-control border-0 bg-transparent" placeholder="Username"
-                            id="username">
+                            id="username" required>
                     </div>
-                    <div class="mb-4 input-group bg-light rounded-pill px-3 py-1">
-                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">lock</span>
+
+                    <div class="mb-3 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined pt-2 text-secondary">lock</span>
                         <input type="password" class="form-control border-0 bg-transparent" placeholder="Password"
-                            id="password">
+                            id="password" required>
                     </div>
-                      <div class="mb-4 input-group bg-light rounded-pill px-3 py-1">
-                        <span class="material-symbols-outlined align-middle pt-2 text-secondary">verified_user</span>
-                        <input type="password" class="form-control border-0 bg-transparent" placeholder="Confirm Password"
-                            id="cofirm_password">
+
+                    <div class="mb-4 input-group bg-light rounded-pill px-3 py-1">
+                        <span class="material-symbols-outlined pt-2 text-secondary">verified_user</span>
+                        <input type="password" class="form-control border-0 bg-transparent"
+                            placeholder="Confirm Password" id="confirm_password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold mb-4"
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold"
                         style="background: rgb(192, 68, 68); border: none;">
                         Sign Up
                     </button>
                 </form>
+
 
                 <div class="d-flex align-items-center text-center mb-4">
                     <hr class="flex-grow-1"> <span class="px-2 small text-muted">Login with Others</span>

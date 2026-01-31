@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import timedelta
+
 class Category(models.Model):
     categoryname = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
@@ -45,6 +48,14 @@ class Email(models.Model):
     name = models.CharField(max_length=255)
     createddate = models.DateTimeField(auto_now_add=True)
 
+class EmailOTP(models.Model):
+    email = models.EmailField(unique=True)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def is_expired(self):
+        return timezone.now() > self.created_at + timedelta(minutes=5)
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -67,6 +78,7 @@ class Order(models.Model):
     address = models.CharField(max_length=255)
     note = models.TextField(blank=True, null=True)
     createddate = models.DateTimeField(auto_now_add=True)
+    payment_method = models.CharField(max_length=20,null=True)
     status = models.IntegerField()
     process = models.IntegerField()
 

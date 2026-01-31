@@ -48,3 +48,23 @@ class AddToCartSerializer(serializers.ModelSerializer):
             cart_item.save()
         return cart_item
     
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+    product = CartProductSerializer(read_only=True)
+    class Meta:
+        model =OrderDetail
+        fields = ['product', 'price', 'quantity','total']
+
+class OrderSerializer(serializers.ModelSerializer):
+    details = OrderDetailSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = [
+            'id',
+            'total',
+            'address',
+            'note',
+            'status',
+            'createddate',
+            'details'
+        ]
