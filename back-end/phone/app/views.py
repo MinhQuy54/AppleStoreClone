@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 import random
 from django.core.mail import send_mail
 from django.conf import settings
+from .momo import create_momo_payment
+import time
 # Create your views here.
 
 def random_otp():
@@ -237,12 +239,13 @@ class CartDetail(APIView):
 class OrderList(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
+        pay_method = request.data.get('payment_method')
         cart_item = Cart.objects.filter(user=request.user)
         if not cart_item.exists():
             return Response({"error": "Giỏ hàng trống"}, status=status.HTTP_400_BAD_REQUEST)
         
         total = sum(item.product.price * item.quantity for item in cart_item)
-
+        total_int = int(float(total))
         order = Order.objects.create(
             user=request.user,
             total=total,
@@ -260,5 +263,31 @@ class OrderList(APIView):
             )
         cart_item.delete()
 
-        serializer = OrderSerializer(order)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if pay_method == "momo":
+            try:
+                unique_order_id = f"{order.id}_{int(time.time())}"
+                momo_res = create_momo_payment(total_int, unique_order_id)
+                print("MoMo response:", momo_res)
+
+                if momo_res.get("resultCode") != 0:
+                    return Response({
+                        "error": momo_res.get("message", "MoMo payment failed"),
+                        "momo_res": momo_res
+                    }, status=400)
+
+                return Response({
+                    "payment_method": "momo",
+                    "payUrl": momo_res.get("payUrl")
+                })
+
+            except Exception as e:
+                print("MoMo EXCEPTION:", e)
+                return Response({
+                    "error": "Lỗi server khi gọi MoMo"
+                }, status=500)
+            
+
+        return Response({
+            "message": "Đặt hàng COD thành công",
+            "order_id": order.id
+        })

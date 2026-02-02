@@ -66,7 +66,7 @@ document.getElementById("checkout-form").addEventListener("submit", async functi
     }
 
     try {
-        const res = await fetch(`${API_BASE}/api/orders/`, {
+        const res = await fetch(`${API_BASE}/api/order/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -85,16 +85,21 @@ document.getElementById("checkout-form").addEventListener("submit", async functi
             return;
         }
 
-        alert("Đặt hàng thành công!");
-
         if (paymentMethod === "momo") {
-            alert("Chuyển sang thanh toán MoMo (mock)");
+            if (!data.payUrl) {
+                alert("Không lấy được link thanh toán MoMo");
+                console.error(data);
+                return;
+            }
+            window.location.href = data.payUrl;
+            return;
+
         } else if (paymentMethod === "vnpay") {
             alert("Chuyển sang thanh toán VNPAY (mock)");
         }
 
-        window.location.href = "success.html";
-
+        window.location.href = "home.html";
+        alert("Đặt hàng thành công!");
     } catch (err) {
         console.error(err);
         alert("Lỗi khi thanh toán");

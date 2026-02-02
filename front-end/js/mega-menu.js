@@ -56,7 +56,7 @@ function loadCategories(type) {
             categories.slice(0, 5).forEach(c => {
                 list.innerHTML += `
                 <li>
-                    <a href="../page/detail.html?id=${c.id}">
+                    <a href="./detail.html?id=${c.id}">
                         ${c.productname}
                     </a>
                 </li>
