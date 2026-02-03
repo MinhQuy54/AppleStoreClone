@@ -159,4 +159,16 @@ EMAIL_HOST_USER = 'accpesquy54@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Sửa lỗi MariaDB không hỗ trợ RETURNING trên Django 6.x
+from django.db.backends.mysql.base import DatabaseWrapper as MySQLDatabaseWrapper
 
+# Lưu lại hàm khởi tạo gốc
+original_init = MySQLDatabaseWrapper.__init__
+
+# Định nghĩa hàm khởi tạo mới để ép tắt tính năng RETURNING
+def patched_init(self, *args, **kwargs):
+    original_init(self, *args, **kwargs)
+    self.features.can_return_columns_from_insert = False
+
+# Ghi đè hàm khởi tạo của MySQL DatabaseWrapper
+MySQLDatabaseWrapper.__init__ = patched_init
